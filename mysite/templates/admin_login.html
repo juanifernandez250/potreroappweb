@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="contact-form">
+    <h1>Administrador - Iniciar Sesión</h1>
+    <form id="adminLoginForm" class="login-form">
+        <label for="username">Usuario:</label>
+        <input type="text" id="username" name="username" placeholder="Ingrese su usuario" required>
+        
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" placeholder="Ingrese su contraseña" required>
+        
+        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+    </form>
+    <p id="error-message" style="color: red; display: none;"></p>
+</section>
+
+<script>
+    document.getElementById("adminLoginForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        if (username === "admin" && password === "adminpotrero") {
+            window.location.href = "/admin_dashboard"; // Redirigir al panel de administración
+        } else {
+            const errorMessage = document.getElementById("error-message");
+            errorMessage.textContent = "Credenciales incorrectas. Intente nuevamente.";
+            errorMessage.style.display = "block";
+        }
+    });
+</script>
+{% endblock %}

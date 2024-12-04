@@ -1,0 +1,89 @@
+{% extends "layout.html" %}  <!-- declaro de donde traigo la plantilla -->
+
+{% block content %}
+<section class="detalle-curso">
+    <div class="detalle-card">
+        <img id="curso-imagen" src="" alt="Imagen del curso" class="curso-imagen">
+        <div class="detalle-info">
+            <h1 id="curso-titulo"></h1>
+            <p id="curso-descripcion"></p>
+            <p><strong>Precio:</strong> $<span id="curso-precio"></span></p>
+            <p><strong>Clases:</strong> <span id="curso-clases"></span></p>
+            <p><strong>Módulos:</strong> <span id="curso-modulos"></span></p>
+        </div>
+    </div>
+    <div class="detalle-detalles">
+        <h2>Detalles del Curso</h2>
+        <ul id="modulos-detalle"></ul>
+        <h2>Ventajas</h2>
+        <ul id="ventajas"></ul>
+        <h2>¿Por qué hacerlo?</h2>
+        <p id="por-que-hacerlo"></p>
+        <h2>Posibilidades</h2>
+        <p id="posibilidades"></p>
+        <a href="{{ url_for('home') }}" class="btn">Volver</a>
+     <!-- <a href="{{ url_for('comprar') }}" class="btn-comprar">Comprar</a> -->
+     <a id="btn-comprar" class="btn-comprar">Comprar</a>
+
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+    const apiUrl = 'https://cursos-151f7-default-rtdb.firebaseio.com/cursos.json';
+    const params = new URLSearchParams(window.location.search);
+    const cursoId = params.get('id');
+
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (data[cursoId]) {
+            const curso = data[cursoId];
+
+            // Configurar los detalles del curso
+            document.getElementById('curso-imagen').src = curso.imagen;
+            document.getElementById('curso-titulo').textContent = curso.titulo;
+            document.getElementById('curso-descripcion').textContent = curso.descripcion;
+            document.getElementById('curso-precio').textContent = curso.precio;
+            document.getElementById('curso-clases').textContent = curso.clases;
+            document.getElementById('curso-modulos').textContent = curso.modulos;
+            
+            document.getElementById('ventajas').textContent = curso.ventajas;
+            document.getElementById('modulos-detalle').textContent = curso.modulos_detalle;
+            document.getElementById('por-que-hacerlo').textContent = curso.por_que_hacerlo;
+            document.getElementById('posibilidades').textContent = curso.posibilidades;
+
+            // Actualizar enlace del botón "Comprar"
+            const btnComprar = document.getElementById('btn-comprar');
+            btnComprar.href = `comprar.html?id=${cursoId}`;
+
+                const modulosDetalle = document.getElementById('modulos-detalle');
+                curso.modulos_detalle.forEach(modulo => {
+                    const li = document.createElement('li');
+                    li.textContent = modulo;
+                    modulosDetalle.appendChild(li);
+                });
+
+                const ventajas = document.getElementById('ventajas');
+                curso.ventajas.forEach(ventajas => {
+                    const li = document.createElement('li');
+                    li.textContent = ventajas;
+                    ventajas.appendChild(li);
+                });
+
+                document.getElementById('por-que-hacerlo').textContent = curso.por_que_hacerlo;
+                document.getElementById('posibilidades').textContent = curso.posibilidades;
+            } else {
+                document.body.innerHTML = '<p>Curso no encontrado.</p>';
+            }
+        } catch (error) {
+            console.error('Error al cargar los detalles:', error);
+        }
+        
+        
+
+    });
+</script>
+
+{% endblock%}

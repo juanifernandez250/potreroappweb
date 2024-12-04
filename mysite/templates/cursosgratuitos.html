@@ -1,0 +1,59 @@
+{% extends "layout.html" %}  <!-- declaro de donde traigo la plantilla -->
+
+{% block content %}
+<section class="cursos-disponibles">
+    <h3>Cursos Gratuitos</h3>
+    <div id="cursos-container" class="cursos-container">
+        <!-- Los cursos se agregarán dinámicamente aquí con JavaScript -->
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // URL de la API donde se encuentran los cursos
+        const apiUrl = 'https://cursos-151f7-default-rtdb.firebaseio.com/cursos.json';
+    
+        // Función para obtener los cursos de la API
+        function obtenerCursos() {
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const cursosContainer = document.getElementById('cursos-container');
+                    
+                    // Iterar sobre los cursos y mostrarlos solo si son gratuitos
+                    for (const key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            const curso = data[key];
+    
+                            // Solo mostrar el curso si es gratuito
+                            if (curso.gratuito === true) {
+                                const cursoElement = document.createElement('div');
+                                cursoElement.classList.add('curso');
+                                
+                                // Construir la estructura del curso
+                                cursoElement.innerHTML = `
+                                    <img src="${curso.imagen}" alt="${curso.titulo}" class="curso-imagen">
+                                    <h4>${curso.titulo}</h4>
+                                    <p>${curso.descripcion}</p>
+                                    <p><strong>Clases:</strong> ${curso.clases}</p>
+                                    <p><strong>Módulos:</strong> ${curso.modulos}</p>
+                                    <p><strong>Precio:</strong> Gratis</p>
+                                    <a href="detalle.html?id=${key}" class="btn">Ver más</a>                                `;
+                                
+                                // Agregar el curso al contenedor
+                                cursosContainer.appendChild(cursoElement);
+                            }
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al cargar los cursos:', error);
+                });
+        }
+    
+        // Llamar a la función cuando la página cargue
+        obtenerCursos();
+    });
+    
+    </script>
+{% endblock%}

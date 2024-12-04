@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="compra-exitosa">
+    <div class="compra-card">
+        <h1 id="curso-titulo">Cargando detalles del curso...</h1>
+        <div class="mensaje-confirmacion">
+            <p>Felicitaciones por dar el primer paso hacia tu éxito financiero!</p>
+            <p>Estamos encantados de que hayas elegido nuestra plataforma para adquirir nuevos conocimientos.</p>
+            <p>Nos esforzamos por ofrecer cursos de alta calidad y fáciles de entender. ¡Estamos contigo en cada paso del camino!</p>
+        </div>
+        <img id="curso-imagen" src="" alt="Imagen del curso" class="curso-imagen">
+        <p id="curso-descripcion"></p>
+        <p><strong>Precio:</strong> $<span id="curso-precio"></span></p>
+        <p><strong>Clases:</strong> <span id="curso-clases"></span></p>
+        <p><strong>Módulos:</strong> <span id="curso-modulos"></span></p>
+        <a href="#" class="btn btn-success">Ir a Mis Cursos</a>
+        <a href="/" class="btn btn-secondary">Volver al Inicio</a>
+    </div>
+</section>
+
+<script>
+// Obtener el ID del curso desde la URL
+const params = new URLSearchParams(window.location.search);
+const idCurso = params.get('id');
+
+// Obtener y mostrar los detalles del curso
+async function mostrarDetallesCurso() {
+  const cursos = await fetch('https://cursos-151f7-default-rtdb.firebaseio.com/cursos.json')
+    .then((res) => res.json())
+    .catch((err) => console.error('Error al obtener los cursos:', err));
+
+  if (cursos && cursos[idCurso]) {
+    const curso = cursos[idCurso];
+
+    document.getElementById('curso-titulo').textContent = curso.titulo;
+    document.getElementById('curso-imagen').src = curso.imagen;
+    document.getElementById('curso-descripcion').textContent = curso.descripcion;
+    document.getElementById('curso-precio').textContent = curso.precio;
+    document.getElementById('curso-clases').textContent = curso.clases;
+    document.getElementById('curso-modulos').textContent = curso.modulos;
+  } else {
+    document.querySelector('.compra-card').innerHTML = '<p>Curso no encontrado.</p>';
+  }
+}
+
+// Ejecutar al cargar el DOM
+document.addEventListener('DOMContentLoaded', mostrarDetallesCurso);
+</script>
+{% endblock %}

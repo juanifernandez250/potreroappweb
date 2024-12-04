@@ -1,0 +1,48 @@
+{% extends "layout.html" %}  <!-- declaro de donde traigo la plantilla -->
+
+{% block content %}
+
+<body>
+
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-image">
+                <img src="static/img/img55.jpg" alt="Imagen de un teclado y monedas">
+            </div>
+            <div class="hero-text">
+                <h2>¡Aprende lo que amas!</h2>
+                <p>Explora nuestros cursos en línea y mejora tus habilidades con los mejores contenidos educativos.</p>
+                <a href="{{ url_for('cursosdisponibles') }}" class="btn">Ver Cursos</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits">
+        <h3>¿Por qué elegirnos?</h3>
+        <div class="benefits-container">
+            <div class="benefit-item">
+                <h4>Variedad de Cursos</h4>
+                <p>Encuentra cursos en finanzas, tecnología, negocios y más.</p>
+            </div>
+            <div class="benefit-item">
+                <h4>Accesibles</h4>
+                <p>Precios competitivos con ofertas exclusivas para nuestros estudiantes.</p>
+            </div>
+            <div class="benefit-item">
+                <h4>Certificación</h4>
+                <p>Recibe un certificado al completar tus cursos.</p>
+            </div>
+        </div>
+    </section>
+        <div class="card-container">
+            <!-- Las cards serán generadas dinámicamente con JavaScript -->
+        </div>
+    </section>
+
+    <script src="/static/main.js"></script>
+</body>
+
+
+{% endblock%}

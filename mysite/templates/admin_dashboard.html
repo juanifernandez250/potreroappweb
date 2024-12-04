@@ -1,0 +1,267 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="admin-dashboard">
+    <h1>Panel de Administración</h1>
+    <div class="cursos-container">
+        <!-- Contenedor dinámico de los cursos -->
+        <div id="cursos-list" class="cursos-list"></div>
+    </div>
+    <button id="add-curso-btn" class="btn btn-primary">Agregar Curso</button>
+
+    <div id="form-container" class="hidden">
+        <h3 id="form-title"></h3>
+        <form id="curso-form">
+            <input type="hidden" id="curso-id">
+            <div>
+                <label for="curso-titulo">Título:</label>
+                <input type="text" id="curso-titulo" required>
+            </div>
+            <div>
+                <label for="curso-descripcion">Descripción:</label>
+                <textarea id="curso-descripcion" required></textarea>
+            </div>
+            <div>
+                <label for="curso-imagen">URL Imagen:</label>
+                <input type="url" id="curso-imagen" required>
+            </div>
+            <div>
+                <label for="curso-precio">Precio:</label>
+                <input type="number" id="curso-precio" required>
+            </div>
+            <div>
+                <label for="curso-clases">Clases:</label>
+                <input type="number" id="curso-clases" required>
+            </div>
+            <div>
+                <label for="curso-modulos">Módulos:</label>
+                <input type="number" id="curso-modulos" required>
+            </div>
+            
+            <div>
+                <label for="modulos-detalle">Detalles del Curso:</label>
+                <textarea type="text" id="modulos-detalle" required></textarea>
+            </div>
+            
+            <div>
+                <label for="ventajas">Ventajas:</label>
+                <textarea type="text" id="ventajas" required></textarea>
+            </div>
+            
+            <div>
+                <label for="por-que-hacerlo">¿Por qué hacerlo?</label>
+                <textarea id="por-que-hacerlo" required></textarea>
+            </div>
+            
+            <div>
+                <label for="posibilidades">Posibilidades:</label>
+                <textarea id="posibilidades" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Guardar</button>
+            <button type="button" id="cancel-btn" class="btn btn-secondary">Cancelar</button>
+        </form>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const apiUrl = 'https://cursos-151f7-default-rtdb.firebaseio.com/cursos';
+    
+    // Mostrar el formulario para agregar un nuevo curso
+    function mostrarFormulario(titulo) {
+        document.getElementById('form-title').textContent = titulo;
+        document.getElementById('curso-form').reset();
+        document.getElementById('curso-id').value = '';
+        document.getElementById('form-container').classList.remove('hidden');
+        document.getElementById('form-container').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Obtener cursos y mostrarlos como cards
+    async function obtenerCursos() {
+        try {
+            const response = await fetch(`${apiUrl}.json`);
+            const data = await response.json();
+            const cursosList = document.getElementById('cursos-list');
+            cursosList.innerHTML = '';
+
+            for (const id in data) {
+                const curso = data[id];
+
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.innerHTML = `
+                    <img src="${curso.imagen}" alt="${curso.titulo}" class="card-img">
+                    <div class="card-body">
+                        <h3>${curso.titulo}</h3>
+                        <p>${curso.descripcion}</p>
+                        <p><strong>Precio:</strong> $${curso.precio}</p>
+                        <p><strong>Clases:</strong> ${curso.clases}</p>
+                        <p><strong>Módulos:</strong> ${curso.modulos}</p>
+                    <div class="btn-div">
+                        <button class="btn btn-edit" data-id="${id}">Editar</button>
+                        <button class="btn btn-delete" data-id="${id}">Eliminar</button>
+                    </div>
+                    </div>
+                `;
+                cursosList.appendChild(card);
+            }
+        } catch (error) {
+            console.error('Error al obtener los cursos:', error);
+        }
+    }
+
+    // Mostrar formulario con datos para edición
+    async function cargarCursoParaEdicion(id) {
+        try {
+            const response = await fetch(`${apiUrl}/${id}.json`);
+            const curso = await response.json();
+
+            if (curso) {
+                document.getElementById('curso-id').value = id;
+                document.getElementById('curso-titulo').value = curso.titulo;
+                document.getElementById('curso-descripcion').value = curso.descripcion;
+                document.getElementById('curso-imagen').value = curso.imagen;
+                document.getElementById('curso-precio').value = curso.precio;
+                document.getElementById('curso-clases').value = curso.clases;
+                document.getElementById('curso-modulos').value = curso.modulos;
+
+                document.getElementById('modulos-detalle').value = curso.modulos_detalle;
+                document.getElementById('ventajas').value = curso.ventajas;
+                document.getElementById('por-que-hacerlo').value = curso.por_que_hacerlo;
+                document.getElementById('posibilidades').value = curso.posibilidades;
+
+                // Mostrar el formulario y desplazar hacia él
+                document.getElementById('form-title').textContent = 'Editar Curso';
+                document.getElementById('form-container').classList.remove('hidden');
+                document.getElementById('form-container').scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (error) {
+            console.error('Error al cargar el curso para edición:', error);
+        }
+    }
+
+    // Guardar o actualizar curso
+    async function guardarCurso(e) {
+        e.preventDefault();
+        const id = document.getElementById('curso-id').value;
+        const precio = parseFloat(document.getElementById('curso-precio').value) || 0; // Convertir precio a número
+        const curso = {
+            titulo: document.getElementById('curso-titulo').value,
+            descripcion: document.getElementById('curso-descripcion').value,
+            imagen: document.getElementById('curso-imagen').value,
+            precio: precio,
+            clases: document.getElementById('curso-clases').value,
+            modulos: document.getElementById('curso-modulos').value,
+
+            modulos_detalle: document.getElementById('modulos-detalle').value,
+            ventajas: document.getElementById('ventajas').value, 
+            por_que_hacerlo: document.getElementById('por-que-hacerlo').value, 
+            posibilidades: document.getElementById('posibilidades').value,
+            gratuito: precio === 0 // Determina automáticamente si es gratuito
+        };
+
+        const method = id ? 'PATCH' : 'POST';
+        const url = id ? `${apiUrl}/${id}.json` : `${apiUrl}.json`;
+
+        try {
+            await fetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(curso),
+            });
+            obtenerCursos();
+            cancelarFormulario();
+        } catch (error) {
+            console.error('Error al guardar el curso:', error);
+        }
+    }
+
+    // Cancelar formulario
+    function cancelarFormulario() {
+        document.getElementById('form-container').classList.add('hidden');
+        document.getElementById('curso-form').reset();
+    }
+
+    // Eliminar curso
+    async function eliminarCurso(id) {
+        if (confirm('¿Seguro que quieres eliminar este curso?')) {
+            try {
+                await fetch(`${apiUrl}/${id}.json`, { method: 'DELETE' });
+                obtenerCursos();
+            } catch (error) {
+                console.error('Error al eliminar el curso:', error);
+            }
+        }
+    }
+
+    // Eventos principales
+    obtenerCursos();
+
+    document.getElementById('add-curso-btn').addEventListener('click', () => {
+        mostrarFormulario('Agregar Nuevo Curso');
+    });
+
+    document.getElementById('cursos-list').addEventListener('click', (e) => {
+        if (e.target.classList.contains('btn-edit')) {
+            const id = e.target.dataset.id;
+            cargarCursoParaEdicion(id);
+        } else if (e.target.classList.contains('btn-delete')) {
+            const id = e.target.dataset.id;
+            eliminarCurso(id);
+        }
+    });
+
+    document.getElementById('curso-form').addEventListener('submit', guardarCurso);
+    document.getElementById('cancel-btn').addEventListener('click', cancelarFormulario);
+});
+
+    </script>
+    
+
+<style>
+    .admin-dashboard {
+        padding: 20px;
+    }
+
+    .cursos-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        width: 250px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .form-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background: #f9f9f9;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .btn-div {
+        margin-top: 10px;
+        
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finedu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="..\static\css\main.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="icon" href="../static/img/icons8-f-16.png" type="image/png">
+</head>
+<!--ENCABEZADO-->
+<header>
+    <div class="header-container">
+        <div class="logo">
+            <a href="{{ url_for('home') }}"><img src="../static/img/Logo FinEdu.jpeg" alt="Finedu logo"></a>
+        </div>
+        <nav class="nav-links">
+            <a href="{{ url_for('cursosdisponibles') }}">Cursos Disponibles</a>
+            <a href="{{ url_for('cursosgratuitos') }}">Cursos Gratuitos</a>
+            <a href="{{ url_for('contactanos') }}">Contáctanos</a>
+        </nav>
+        <div class="header-buttons">
+            <button class="subscribe-btn">Suscribirse</button>
+            <a href="{{ url_for('admin_login') }}" class="login-btn">Iniar Sesion</a>
+        </div>
+    </div>
+
+</header>
+
+        
+<body>
+
+<section class="seccion"> 
+
+
+        {% block content %}
+
+
+
+
+
+
+
+
+
+        
+        {% endblock%}
+  
+
+</section>
+
+</body>
+
+
+
+<!--PIE DE PAGINA-->    
+<footer>
+    <div class="footer-contenedor">
+        <div class="logo">
+            <img src="../static/img/Logo FinEdu.jpeg" alt="Finedu logo">
+        </div>
+        <div class="footer-links">
+            <a href="{{ url_for('cursosdisponibles') }}">Cursos Disponibles</a>
+            <a href="{{ url_for('cursosgratuitos') }}">Cursos Gratuitos</a>
+            <a href="#">Crear Cuenta</a>
+            <a href="#">Suscribirse Ahora</a>
+            <a href="{{ url_for('contactanos') }}">Contáctanos</a>
+        </div>
+        <div class="iconos-sociales">
+            <a href="#"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACd0lEQVR4nO2Zv2sUQRTHP+evwigSrCyiAWOpTXpBxcRcCkn8BVrZif+AjUJQSA5Jo4VpbMQiJtrE/CCojZ3YGEQx9nYaE6PRxOJWBp4Qwu7czuzb3Tm4L3zhmn1vPszsm7fvoKWWgtceoArUgGlgEfgO/BWb35+A58AI0CfPBKGKLGgSWAciR/8BJoAzEqsUXQDeeyw+yQvAYJEAR4BXigBb/QLoyhviHLCSI0QkXgUu5wFgzu9QAQDRFtc03x0TaKwEiEj8QAtmpESISHwnK8SlACAi8ZUs1emn0iLMffFQSraJux/YB7QDncBRYLRBjB/AYR8QrRL7EjiQIt/VFLHmXSHOK0HMAjtS5kwDYjyQFqKidGN/kyOEMsi7tFWsT2k3hh0gXEAioDdNwEklkGOWHN3Afcn1328dYo83gtjr2cXGVZjtFoiNjPF/A7ttIFXFTjZJj5Ry9NhAakpJXltyfCniHZxWSjKXEL8iX4saOaZsIJ8V74847VKKH8lnc6KWmgjkqw1ko4lA1rVBBqT522zbdKQ9wXcd85q1JmrZA+Q0Onri0QIlarFEENNDueT9aAs2WxLINmBNs/wOlwRySPvzt98j4HXpnza7y3Ihdsf4mkfeXhuIacR+eQQtuvyuAW2NtvlpE4BMkEI9TQByKg2IOccfAgZZwEFnAwapUuA4KC+QeTzUKVPxUEBWgIN4yjSE9QBA6sBFMup2ACBDKOleiSCjKOuGwzHTAKlr7kTcX2/LBYAsucx4s3SqMzmCTAEdFKh+y5jTB+SNzJ1L03HgsYxJXUFWZfJoYgQjs8iTwE0pDHHaCTwDbgEn5JmWWiJg/QOlYrQmouYwLQAAAABJRU5ErkJggg=="></a>
+            <a href="#"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADK0lEQVR4nO2ZO09UQRTHfwUqRB67lksrgrEQBTsfsZOYqHwCQlS+gApS+2iNhFKDX0AxsZLFZ6f2Itio2AoKCBWuOcn/JhMDu3Mfu3NN9p9McrP3nHPn7Jz3QBNN5AK9wAQwDywAG0Alo2WyTGYZGAcO1UOBQeBFhpv2XfPAQBYK7AGmgT8S/AN4AFzQ6ewnO5gsk3kReKhvVfTtKaAlqeAi8FLCfgO3gE4ah07gNrDpnE4hyUlEpvRdphUKR4Ev2ssbYG8c5mkxfgNKhEcJWNae7vsyDcouzZyOkR8cl5lt67kmIpMyn8gb7mhvFqKroteJTo107Ajn5ZNmRkM7vO8CVrTHnmqCJkRk4S8Elp0cYv65E2b0/kY1QWURWSzPqyLDej9XTdCiiNKUB5Z/RoGnwCeVHht6ntU7o9kJQ1LGlDhXw/xN3q5YE1FHAgXagEngp0fpsQrcBFoTfKdDMmyvuyL6UJI4/8Hhfw5cccoYW336bc6he58wT1Vq7TOJIiWZQnTcJz14TjlmnCTpVrJWpM05iVcxayHzk9fifRfTzCpZKzIp+oUkBZ2UiU7GQn8QRYqOY/uY02444wSAYghFRh3HTosof42EUGRWtJdJj6uS9TiEIpFtW4hNiz6fJFcvRdZF2056tEvW+v+uSKdk/fKkb5pWNWe3siMtxkI6+6hPOe2J+ZDht6gkZvSnSY6zTkIshC5RFmNkZRfGs+TT8dVbkVaV4hUVgHGUOQC8zUvR+G8Zv6TaycecPuepjI9Q0r8a8ZcViQ4rz7Trecxx7Ogk6tJYraVodVtViq96trp2dbCvXq3uYgbDh4LC6BP1KetaC/ptJGHvEmv4EHoc5INhn/ZhPPCAzgePtMdreR6Z1oL3yBQnqtglS95wN05XOqBrhU3f8X2DMAhs6Vqh35dpSprb+LKb8Oh25sL34jC2OCZmY/4ThEM/8NVJtLEvRQuOMpu6ZDFnaxS65BNbTruQOP+06M5uW8JWdD9xSQODLNrcCCarT3lixolO2zKnxNfTLo4AzzxKj6xXuV4Bp0d9w5xTfmS1aZP1UaH1OnCwHgo00QTx8Bf0wax6bwlEYQAAAABJRU5ErkJggg=="></a>
+            <a href="#"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACzklEQVR4nO2aO2gVQRSGP1/ZBB+IICkEwcIigo2Fiwa0Emy0SWUsjb2xU0s1uZtK7UyMrY0WVjZqkiKKisZCFBQFRREEUUTEGzSRgSMMYR9nZ2cfXO4PA8vO2XNmZ75Mzp650FVXlWoGWM5oi8CIx5jG16IirhmbWs8VDk37BQx4eIkB8bWsaGZsau2R2fkLDCbYTIvjZ0BPgZdYCzwWX9cSbELgj7S9eQO0xPkroDemfz3wRmzO464L4uMdsCmmPwBeiM24SwDbgXmpOA3KLJmVO+AQY7/1/MEEm4mMCVXp/5KmITZmzejGHL7Nir6WZy8WiO8NsXUW45N6t0xl/I0FRZFyQczedYYUPo+K7W9gd5lIuSzxqAT+AvSTrK3AZ7E9VQVSeRFbBdwRm9sk66bY3AVWV4GUC2LbgK9iE/df/6T0fQO2V4mUy5IPy0B+Ajut+zuAH9J3rA6kViqyZqyPeN0Qm3lgjSA0J/cMWq4r7lWagJuB92JzFjgn1x+BLXUilZb7mOs4HQKWgLa0Jbnn6q9WxC5bWeulpiC1Umb5X2YMwLzgA2l9GRNifFWGlO9dptJdygdijUTK14DsCagNqaKINAqppBleIFsLYmueaZyiTniRMGdxoJFoBY5pd8txtytNrjmSPQG1IxYWqTc1BbFeZYryUFpjU5QJBVJXrKTRJJCNQyzshDQ+UOxS5sPqg9ickY8rc/0p5cPKNWcrFam4T91ZuXerCYiFil3quKL4MFznLhYokLLLQSdi+kek73tKOSgqG7GstNvgcy9HgW5OUaBrUQNSpx1KpqNVIhYokNplFbGPKHwelu04rYgd+UYsUhwrPBGbqzn8Tlppf0/ZiIUKpMYl2NsCBz1jZSIWKJAqevS2T3H0FhVFLAupDTUchrbKQOq6OH/q4Xj6kfia9o1Yx/xgYEbhsF3CTzjairj3Pcbsqisy9A9sVZqcrlsZ/wAAAABJRU5ErkJggg=="></a>
+            <a href="#"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAABZElEQVR4nO2ZvUoDQRSFP1Hs/AFtBQt9A99BwV20FIV0lr6CjQTyID6DnSbqg9gp/iDopkpzZWEaw+zOzFrsHbkHThNuZs+Xu3dmk4DJZOqqI2ACTAHp2VNgDJSpECMF4aXBw5ROiHIXMSATBUEl4LsYkEpBUAn4OwZEMnFQfQcUA5lT2yfyApwAG85nwFuOHdlXtF0H1fbmVU/9Wo4gpae+yBHkHRgAm871jLzmCCKKHFTfAcVA5tSlnSk1j+4s2gKWgRVgD7gEPnIAqQ/Og8C114Eb7SA7MRcHloAHzSAp2gZmOYAsRtRcawa5AJ5d3RNw3lJ7qhXkOPH7965WkPuGNevfCOjwMNobyGfDmvXrPi1oBfnrumIgWEe8slsLmxFs1xL/eNiMiJ0jtG+TmhzUvwGpFISUgL9iQMYKgkrAtzEgpYKgEvAhkRoqCCsNviJRhfv3VMPMVO52iu6EyWTil34AFdRDhxtrT8cAAAAASUVORK5CYII="></a>
+            <a href="#"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACFElEQVR4nO2ZT0hUQRzHP5qBN0OxY+hJ6xJ0yIvgRQovXrrrkmB4CjoFeSgQ9iwdPQpCGwQdPKl0CILFP0gaIcIi4h6KWBMjdXWZeDAPtljfb7Y3szvCfOB7Wtjf78PO7Jv3GwgEAoFAIGDMdeA2MApMAa+AOeAdsAysAbvAN6Ck8xtQVTmu+qwIfAXywBLwBngNTAMZ4AFwC0v0ADPAZ6D8T1ONyhHwAXgCtP+PxGPgV5OaV5dkG7hTj0S0fCoeNK5qZA/oNpG4Bux70LBKSNZE5K4HjSohBRORRx40qgzSIYk886BJZZD7ksisB00qg4xLIu9TFhgGtnzY8J9SFohoAyaB7w5FFiSRTQsiMZ16qZ47EFmSRHYtisT0AYuWRTYlkaIDkZhhfcywIVKURH46FIlP0U+Bw5R1zoCWpEJpT7mmxPvnwtVDsdwgkS4LIjeSCqT9yU2XVtolXAFakwodON7sX1J+v9KJ3jIT2XEg0u/g77cgiWxckQfiuiTy0YJIvA9KDgSUzook8jZlgRE9HVGOMy+JZBvQhI28lEQmPGhSGWRMEhnyoEllkEFJpNvjUZDSqZiOhJY9aFYlJOrPiHs15ra+5BQYoA4e6oG08ig/9BS0bqJ1+BxYBU6a1PyJrv8CuIkFopNmrx73Z/T4P7oGyOn357x+EBarrg6O67hWyNW4VuiVTriBQCAQCAT4mz8yJp3ulSURNAAAAABJRU5ErkJggg=="></a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2024. Todos los derechos reservados.</p>
+        <div class="footer-politicas">
+            <a href="#">Política de Privacidad</a>
+            <a href="#">Términos de Servicio</a>
+            <a href="#">Configuración de Cookies</a>
+        </div>
+    </div>
+</footer>
+  <!-- SCRIPTS -->
+    <script src="{{url_for('static', filename='js/main.js')}}"></script>
+
+</html>
